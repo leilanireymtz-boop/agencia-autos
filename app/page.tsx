@@ -31,19 +31,22 @@ export default function Home() {
   const montoFinanciar = Math.max(0, precio - engancheNum);
   const mensualidad = montoFinanciar / meses;
 
+  // 🔁 360 automático
   useEffect(() => {
     if (!auto360) return;
 
     const interval = setInterval(() => {
-      setImagen((prev) => {
-        let next = prev + 1;
-        if (next > limite) next = 1;
-        return next;
-      });
+      setImagen((prev) => (prev >= limite ? 1 : prev + 1));
     }, 120);
 
     return () => clearInterval(interval);
   }, [auto360, limite]);
+
+  // 🧠 cuando cambias manualmente, se detiene el 360
+  const cambiarImagen = (nuevo) => {
+    setAuto360(false);
+    setImagen(nuevo);
+  };
 
   return (
     <main className="min-h-screen bg-white text-black">
@@ -73,7 +76,6 @@ export default function Home() {
       {seccion === "inicio" && (
         <section className="min-h-[90vh] flex flex-col justify-center items-center text-center px-6">
 
-          {/* ✅ IMAGEN CORREGIDA PARA VERCEL */}
           <img
             src="/inicio/inicio.png"
             className="w-full max-w-4xl mb-10 rounded-xl shadow-xl"
@@ -83,10 +85,6 @@ export default function Home() {
           <h2 className="text-5xl font-black mb-4">
             Bienvenido a CAR DRIVE
           </h2>
-
-          <p className="text-gray-600 mb-8">
-            La mejor experiencia automotriz 360°
-          </p>
 
           <button
             onClick={() => setSeccion("vehiculos")}
@@ -130,15 +128,17 @@ export default function Home() {
 
             <div className="flex justify-center gap-3 mt-6">
 
+              {/* ⬅ */}
               <button
                 onClick={() =>
-                  setImagen(imagen <= 1 ? limite : imagen - 1)
+                  cambiarImagen(imagen <= 1 ? limite : imagen - 1)
                 }
                 className="px-6 py-2 bg-gray-100 rounded-full"
               >
                 ⬅
               </button>
 
+              {/* 360 */}
               <button
                 onClick={() => setAuto360(!auto360)}
                 className={`px-6 py-2 rounded-full font-bold ${
@@ -148,9 +148,10 @@ export default function Home() {
                 {auto360 ? "STOP 360" : "AUTO 360"}
               </button>
 
+              {/* ➡ */}
               <button
                 onClick={() =>
-                  setImagen(imagen >= limite ? 1 : imagen + 1)
+                  cambiarImagen(imagen >= limite ? 1 : imagen + 1)
                 }
                 className="px-6 py-2 bg-gray-100 rounded-full"
               >
@@ -182,6 +183,40 @@ export default function Home() {
 
           </div>
         </section>
+      )}
+
+      {/* 💰 MODAL COTIZACIÓN */}
+      {mostrarCotizacion && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
+          <div className="bg-white p-8 rounded-2xl w-[90%] max-w-md text-center">
+
+            <h2 className="text-2xl font-bold mb-4">Cotización</h2>
+
+            <input
+              type="number"
+              placeholder="Enganche"
+              value={enganche}
+              onChange={(e) => setEnganche(e.target.value)}
+              className="border p-2 w-full mb-4"
+            />
+
+            <p className="mb-2">
+              Monto a financiar: <b>${montoFinanciar.toLocaleString()}</b>
+            </p>
+
+            <p className="mb-4">
+              Mensualidad: <b>${mensualidad.toFixed(2)}</b>
+            </p>
+
+            <button
+              onClick={() => setMostrarCotizacion(false)}
+              className="px-6 py-2 bg-black text-white rounded-full"
+            >
+              Cerrar
+            </button>
+
+          </div>
+        </div>
       )}
 
       {/* CONTACTO */}
