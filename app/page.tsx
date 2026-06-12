@@ -8,9 +8,7 @@ export default function Home() {
   const [vehiculo, setVehiculo] = useState("carro");
   const [vista, setVista] = useState("exterior");
   const [mostrarCotizacion, setMostrarCotizacion] = useState(false);
-
   const [auto360, setAuto360] = useState(false);
-
   const [enganche, setEnganche] = useState("");
   const [meses, setMeses] = useState(60);
 
@@ -75,9 +73,9 @@ export default function Home() {
       {seccion === "inicio" && (
         <section className="min-h-[90vh] flex flex-col justify-center items-center text-center px-6">
 
-          {/* ✅ IMAGEN CORREGIDA */}
+          {/* ✅ IMAGEN CORREGIDA PARA VERCEL */}
           <img
-            src="/Inicio/Inicio.png"
+            src="/inicio/inicio.png"
             className="w-full max-w-4xl mb-10 rounded-xl shadow-xl"
             alt="inicio"
           />
