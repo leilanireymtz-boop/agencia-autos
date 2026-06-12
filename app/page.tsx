@@ -11,14 +11,10 @@ export default function Home() {
 
   const [auto360, setAuto360] = useState(false);
 
-  // 💰 ENGANCHE MANUAL
   const [enganche, setEnganche] = useState("");
-
-  // 📅 MESES
   const [meses, setMeses] = useState(60);
 
   const limite = vehiculo === "carro" ? 16 : 15;
-
   const precio = vehiculo === "carro" ? 327700 : 577500;
 
   const extensionExterior = vehiculo === "carro" ? "jpg" : "png";
@@ -33,14 +29,10 @@ export default function Home() {
             : "interior-camioneta"
         }/${imagen}.${extensionInterior}`;
 
-  // 🔥 conversión segura del enganche
   const engancheNum = Number(enganche) || 0;
-
   const montoFinanciar = Math.max(0, precio - engancheNum);
-
   const mensualidad = montoFinanciar / meses;
 
-  // ================= AUTO 360 =================
   useEffect(() => {
     if (!auto360) return;
 
@@ -62,7 +54,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
 
           <h1
-            className="text-2x2 font-black cursor-pointer"
+            className="text-2xl font-black cursor-pointer"
             onClick={() => setSeccion("inicio")}
           >
             CAR DRIVE
@@ -81,9 +73,11 @@ export default function Home() {
       {seccion === "inicio" && (
         <section className="min-h-[90vh] flex flex-col justify-center items-center text-center px-6">
 
+          {/* ✅ IMAGEN CORREGIDA */}
           <img
-            src="/inicio/Inicio.png"
-            className="w-full max-w-4x2 mb-10 rounded-xl shadow-xl"
+            src="/imagen.png"
+            className="w-full max-w-4xl mb-10 rounded-xl shadow-xl"
+            alt="inicio"
           />
 
           <h2 className="text-5xl font-black mb-4">
@@ -201,58 +195,6 @@ export default function Home() {
           <p>📧 contacto@cardrive.com</p>
         </div>
       </section>
-
-      {/* MODAL COTIZACIÓN */}
-      {mostrarCotizacion && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center">
-
-          <div className="bg-white p-8 rounded-3xl w-full max-w-md">
-
-            <h2 className="text-2xl font-black mb-6">
-              Cotización
-            </h2>
-
-            <input
-              type="number"
-              className="w-full border p-3 mb-4 rounded"
-              placeholder="Escribe tu enganche"
-              value={enganche}
-              onChange={(e) => setEnganche(e.target.value)}
-            />
-
-            <select
-              className="w-full border p-3 mb-4 rounded"
-              value={meses}
-              onChange={(e) => setMeses(Number(e.target.value))}
-            >
-              {[12, 24, 36, 48, 60, 72].map((m) => (
-                <option key={m} value={m}>
-                  {m} meses
-                </option>
-              ))}
-            </select>
-
-            <p className="text-center text-gray-600 mb-2">
-              Estás financiando a{" "}
-              <span className="font-bold text-black">{meses}</span> meses
-            </p>
-
-            <p className="text-center text-2xl font-black text-blue-600">
-              {mensualidad.toLocaleString(undefined, {
-                maximumFractionDigits: 0,
-              })} / mes
-            </p>
-
-            <button
-              onClick={() => setMostrarCotizacion(false)}
-              className="w-full mt-6 bg-black text-white py-3 rounded-full"
-            >
-              CERRAR
-            </button>
-
-          </div>
-        </div>
-      )}
 
     </main>
   );
