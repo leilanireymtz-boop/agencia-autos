@@ -50,6 +50,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white text-black">
 
+      {/* HEADER */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b">
         <div className="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
 
@@ -70,12 +71,13 @@ export default function Home() {
         </div>
       </header>
 
+      {/* INICIO */}
       {seccion === "inicio" && (
         <section className="min-h-[90vh] flex flex-col justify-center items-center text-center px-6">
 
           {/* ✅ IMAGEN CORREGIDA */}
           <img
-            src="/imagen.png"
+            src="/Inicio/Inicio.png"
             className="w-full max-w-4xl mb-10 rounded-xl shadow-xl"
             alt="inicio"
           />
@@ -97,6 +99,7 @@ export default function Home() {
         </section>
       )}
 
+      {/* VEHÍCULOS */}
       {seccion === "vehiculos" && (
         <section className="max-w-6xl mx-auto px-6 py-12">
 
@@ -124,6 +127,7 @@ export default function Home() {
             <img
               src={rutaImagen}
               className="w-full max-h-[520px] object-contain mx-auto"
+              alt="auto"
             />
 
             <div className="flex justify-center gap-3 mt-6">
@@ -182,6 +186,7 @@ export default function Home() {
         </section>
       )}
 
+      {/* CONTACTO */}
       <section id="contacto" className="max-w-6xl mx-auto py-20 px-6">
         <div className="bg-black text-white rounded-3xl p-10">
           <h2 className="text-3xl font-black mb-4">CAR DRIVE</h2>
