@@ -7,8 +7,10 @@ export default function Home() {
   const [imagen, setImagen] = useState(1);
   const [vehiculo, setVehiculo] = useState("carro");
   const [vista, setVista] = useState("exterior");
+
   const [mostrarCotizacion, setMostrarCotizacion] = useState(false);
   const [auto360, setAuto360] = useState(false);
+
   const [enganche, setEnganche] = useState("");
   const [meses, setMeses] = useState(60);
 
@@ -42,8 +44,8 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [auto360, limite]);
 
-  // 🧠 cuando cambias manualmente, se detiene el 360
-  const cambiarImagen = (nuevo) => {
+  // 🔧 cambio seguro de imagen (detiene 360)
+  const cambiarImagen = (nuevo: number) => {
     setAuto360(false);
     setImagen(nuevo);
   };
@@ -76,6 +78,7 @@ export default function Home() {
       {seccion === "inicio" && (
         <section className="min-h-[90vh] flex flex-col justify-center items-center text-center px-6">
 
+          {/* ✅ IMAGEN FIXED */}
           <img
             src="/inicio/inicio.png"
             className="w-full max-w-4xl mb-10 rounded-xl shadow-xl"
@@ -99,6 +102,7 @@ export default function Home() {
       {seccion === "vehiculos" && (
         <section className="max-w-6xl mx-auto px-6 py-12">
 
+          {/* selector */}
           <div className="flex justify-center gap-4 mb-8">
             {["carro", "camioneta"].map((v) => (
               <button
@@ -118,6 +122,7 @@ export default function Home() {
             ))}
           </div>
 
+          {/* visor */}
           <div className="bg-white border shadow-xl rounded-3xl p-8 text-center">
 
             <img
@@ -126,9 +131,9 @@ export default function Home() {
               alt="auto"
             />
 
+            {/* controles */}
             <div className="flex justify-center gap-3 mt-6">
 
-              {/* ⬅ */}
               <button
                 onClick={() =>
                   cambiarImagen(imagen <= 1 ? limite : imagen - 1)
@@ -138,7 +143,6 @@ export default function Home() {
                 ⬅
               </button>
 
-              {/* 360 */}
               <button
                 onClick={() => setAuto360(!auto360)}
                 className={`px-6 py-2 rounded-full font-bold ${
@@ -148,7 +152,6 @@ export default function Home() {
                 {auto360 ? "STOP 360" : "AUTO 360"}
               </button>
 
-              {/* ➡ */}
               <button
                 onClick={() =>
                   cambiarImagen(imagen >= limite ? 1 : imagen + 1)
@@ -160,6 +163,7 @@ export default function Home() {
 
             </div>
 
+            {/* toggle vista */}
             <button
               onClick={() =>
                 setVista(vista === "exterior" ? "interior" : "exterior")
@@ -187,7 +191,7 @@ export default function Home() {
 
       {/* 💰 MODAL COTIZACIÓN */}
       {mostrarCotizacion && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-2xl w-[90%] max-w-md text-center">
 
             <h2 className="text-2xl font-bold mb-4">Cotización</h2>
@@ -201,11 +205,13 @@ export default function Home() {
             />
 
             <p className="mb-2">
-              Monto a financiar: <b>${montoFinanciar.toLocaleString()}</b>
+              Monto a financiar:{" "}
+              <b>${montoFinanciar.toLocaleString()}</b>
             </p>
 
             <p className="mb-4">
-              Mensualidad: <b>${mensualidad.toFixed(2)}</b>
+              Mensualidad:{" "}
+              <b>${mensualidad.toFixed(2)}</b>
             </p>
 
             <button
